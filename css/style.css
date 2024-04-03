@@ -1,3 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+button {
+  padding: 5px;
+  margin: 3px;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.span-3 {
+  grid-column: span 3;
+}
+
+.num-display {
+  text-align: end;
+  padding: 5px;
+}
+
 #title {
   color: blueviolet;
+}
+
+#calculator {
+  max-width: 320px;
+  border: .1rem solid black;
+  padding: 5px;
 }
