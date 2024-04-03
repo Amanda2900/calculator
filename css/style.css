@@ -1,14 +1,19 @@
 * {
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #023047;
+}
+
+body {
+  background-color: #edede9;
 }
 
 button {
   padding: 5px;
   margin: 3px;
-}
-
-h1 {
-  text-align: center;
+  border-radius: 5px;
+  border: none;
+  background-color: #8ecae6;
 }
 
 .buttons {
@@ -23,18 +28,35 @@ h1 {
 .num-display {
   text-align: end;
   padding: 5px;
-  border:  1px solid black;
+  border:  1px solid #219ebc;
   border-radius: 5px;
+  margin-bottom: 5px;
+  background-color: white;
+}
+
+.num {
+  background-color: #ffb703;
 }
 
 #title {
-  color: blueviolet;
+  color: #023047;
+  text-align: center;
 }
 
 #calculator {
   max-width: 320px;
-  border: 1px solid black;
+  border: 1px solid #219ebc;
   border-radius: 5px;
   padding: 5px;
   margin: auto;
+  background-color: #219ebc;
+}
+
+#enter {
+  background-color: #fb8500;
+}
+
+#clear {
+  background-color: #023047;
+  color:#edede9;
 }
