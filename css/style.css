@@ -22,6 +22,11 @@ button {
   background-color: var(--light-accent-color);
 }
 
+button:active {
+  background-color: var(--dark-accent-color);
+  color: var(--page-bg-color-light);
+}
+
 .buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -31,17 +36,26 @@ button {
   grid-column: span 3;
 }
 
-.num-display {
+.num {
+  background-color: var(--light-bright-accent-color);
+}
+
+.num:active {
+  background-color: var(--dark-bright-accent-color);
+}
+
+.operation:focus {
+  background-color: var(--dark-accent-color);
+  color: var(--page-bg-color-light);
+}
+
+#num-display {
   text-align: end;
   padding: 5px;
   border:  1px solid var(--calc-color-light);
   border-radius: 5px;
   margin-bottom: 5px;
   background-color: white;
-}
-
-.num {
-  background-color: #ffb703;
 }
 
 #title {
@@ -52,16 +66,7 @@ button {
   max-width: 320px;
   border: 1px solid var(--calc-color-light);
   border-radius: 5px;
-  padding: 5px;
+  padding: 8px;
   margin: auto;
   background-color: var(--calc-color-light);
-}
-
-#enter {
-  background-color: var(--dark-bright-accent-color);
-}
-
-#clear {
-  background-color: var(--dark-accent-color);
-  color:#edede9;
 }
