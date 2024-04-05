@@ -32,6 +32,8 @@ numButtons.forEach(function(button) {
 opButtons.forEach(function(button) {
   button.addEventListener('click', function() {
 
+    decimal.removeAttribute('disabled');
+
     if (button.innerText === '/') {
       console.log('divide');
     }
@@ -54,11 +56,13 @@ opButtons.forEach(function(button) {
 
 clear.addEventListener('click', function() {
   display.innerText = 0;
+  decimal.removeAttribute('disabled');
 });
 
 
 decimal.addEventListener('click', function() {
   display.innerText = display.innerText + this.innerText;
+  this.setAttribute('disabled', '');
 });
 
 
