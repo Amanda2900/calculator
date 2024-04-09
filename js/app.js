@@ -50,7 +50,7 @@ numButtons.forEach(function(button) {
           isSubtractActive === true || 
           isAddActive === true
         ) {
-          display.innerText = '0';
+          display.innerText = secondNum;
           manageDisplay(button);
           secondNum = display.innerText;
         } else {
@@ -100,7 +100,7 @@ opButtons.forEach(function(button) {
 
 clear.addEventListener('click', function() {
 
-  if (isTotalEntered === true || isErrorActive === true) return;
+  if (isErrorActive === true) return;
 
   if (this.innerText === 'C' && isErrorActive === false) {
   
