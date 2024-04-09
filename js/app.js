@@ -1,13 +1,5 @@
 /* 
-  - Handle button input
-    - Number button
-    - Functionality button
-  -Function to update the display
-  - Function to perform calcs / stack input
-
   - Button for light/dark mode
-  - Make sure to set character limit/number limit for display string.
-  - have a comma popup in appropriate places
 */ 
 
 //Elements
