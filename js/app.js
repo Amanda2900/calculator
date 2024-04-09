@@ -43,7 +43,6 @@ numButtons.forEach(function(button) {
       if (isTotalEntered === true || isErrorActive === true) return;
 
       if (buttonNumbers.has(parseInt(button.innerText)) && isErrorActive === false) {
-
         if (
           isDivideActive === true || 
           isMultiplyActive === true || 
@@ -51,14 +50,16 @@ numButtons.forEach(function(button) {
           isAddActive === true
         ) {
           display.innerText = secondNum;
-          manageDisplay(button);
-          secondNum = display.innerText;
+          if (display.innerText.length < 20) {
+            manageDisplay(button);
+            secondNum = display.innerText;
+          } else return;
         } else {
-          manageDisplay(button);
-          firstNum = display.innerText;
+          if (display.innerText.length < 20) {
+            manageDisplay(button);
+            firstNum = display.innerText;
+          } else return;
         }
-        console.log('FIRST', firstNum)
-        console.log('SECOND', secondNum)
       } else {
           error();
         }
@@ -93,7 +94,6 @@ opButtons.forEach(function(button) {
     } else {
       error();
     }
-
   });
 });
 
