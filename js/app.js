@@ -11,6 +11,7 @@
 */ 
 
 //Elements
+const allButtons = document.querySelectorAll('button');
 const numButtons = document.querySelectorAll('button.num');
 const opButtons = document.querySelectorAll('button.operation');
 const clear = document.getElementById('clear');
@@ -18,103 +19,165 @@ const backspace = document.getElementById('backspace');
 const decimal = document.getElementById('decimal');
 const enter = document.getElementById('enter');
 const display = document.getElementById('num-display');
+const errorDisplay = document.getElementById('error-display');
 
 // Variables
 let firstNum = 0;
 let secondNum = 0;
 let total = 0;
+
 let isDivideActive = false;
 let isMultiplyActive = false;
 let isSubtractActive = false;
 let isAddActive = false;
+let isDecimalActive = false;
+let isErrorActive = false;
+let isTotalEntered = false;
+
+const buttonNumbers = new Set ([0,1,2,3,4,5,6,7,8,9]);
+const buttonOperators = new Set(['+', '-', '/', 'x']);
 
 // Event listeners for buttons
 numButtons.forEach(function(button) {
-  button.addEventListener('click', function() {
+    button.addEventListener('click', function() {
+      if (isTotalEntered === true || isErrorActive === true) return;
 
-    if (
-      isDivideActive === true || 
-      isMultiplyActive === true || 
-      isSubtractActive === true || 
-      isAddActive === true
-    ) {
-      display.innerText = '0';
-      manageDisplay(button);
-      secondNum = display.innerText;
-    } else {
-      manageDisplay(button);
-      firstNum = display.innerText;
-    }
-  });
+      if (buttonNumbers.has(parseInt(button.innerText)) && isErrorActive === false) {
+
+        if (
+          isDivideActive === true || 
+          isMultiplyActive === true || 
+          isSubtractActive === true || 
+          isAddActive === true
+        ) {
+          display.innerText = '0';
+          manageDisplay(button);
+          secondNum = display.innerText;
+        } else {
+          manageDisplay(button);
+          firstNum = display.innerText;
+        }
+        console.log('FIRST', firstNum)
+        console.log('SECOND', secondNum)
+      } else {
+          error();
+        }
+    });
 });
 
 
 opButtons.forEach(function(button) {
   button.addEventListener('click', function() {
 
-    decimal.removeAttribute('disabled');
+    if (isTotalEntered === true || isErrorActive === true) return;
 
-    if (button.innerText === '/') {
-      isDivideActive = true;
+    if (buttonOperators.has(button.innerText) && isErrorActive === false) {
+
+      if (button.innerText === '/') {
+        isDivideActive = true;
+      }
+  
+      if (button.innerText === 'x') {
+        isMultiplyActive = true;
+      }
+  
+      if (button.innerText === '-') {
+        isSubtractActive = true;
+      }
+  
+      if (button.innerText === '+') {
+        isAddActive = true;
+      }
+      isDecimalActive = false;
+      
+    } else {
+      error();
     }
 
-    if (button.innerText === 'x') {
-      isMultiplyActive = true;
-    }
-
-    if (button.innerText === '-') {
-      isSubtractActive = true;
-    }
-
-    if (button.innerText === '+') {
-      isAddActive = true;
-    }
   });
 });
 
 
 clear.addEventListener('click', function() {
 
-  display.innerText = 0;
-  total = 0;
-  enter.removeAttribute('disabled');
-  reset();
+  if (isTotalEntered === true || isErrorActive === true) return;
+
+  if (this.innerText === 'C' && isErrorActive === false) {
+  
+    isDivideActive = false;
+    isMultiplyActive = false;
+    isSubtractActive = false;
+    isAddActive = false;
+    isTotalEntered = false;
+    firstNum = 0;
+    secondNum = 0;
+    total = 0;
+    display.innerText = 0;
+
+  } else {
+    error();
+  }
 });
 
 
 decimal.addEventListener('click', function() {
-  this.setAttribute('disabled', '');
-
-  display.innerText = display.innerText + this.innerText;
   if (
-    isDivideActive === true || 
-    isMultiplyActive === true || 
-    isSubtractActive === true || 
-    isAddActive === true
-  ) secondNum = display.innerText;
-  else firstNum = display.innerText;
+    isTotalEntered === true || 
+    isErrorActive === true || 
+    isDecimalActive === true
+  ) return;
+
+  if (this.innerText === '.' && isErrorActive === false) {
+
+    display.innerText = display.innerText + this.innerText;
+    if (
+      isDivideActive === true || 
+      isMultiplyActive === true || 
+      isSubtractActive === true || 
+      isAddActive === true
+    ) {
+      secondNum = display.innerText;
+    } else firstNum = display.innerText;
+
+    isDecimalActive = true;
+
+  } else {
+    error();
+  }
 });
 
 
 backspace.addEventListener('click', function() {
-  display.innerText = display.innerText.substring(0, display.innerText.length - 1);
 
-  if (display.innerText.length === 0) display.innerText = '0';
-  if (
-    isDivideActive === true || 
-    isMultiplyActive === true || 
-    isSubtractActive === true || 
-    isAddActive === true
-  ) secondNum = display.innerText;
-  else firstNum = display.innerText;
+  if (isTotalEntered === true || isErrorActive === true) return;
+
+  if (this.innerText === '←' && isErrorActive === false) {
+    display.innerText = display.innerText.substring(0, display.innerText.length - 1);
+
+    if (display.innerText.length === 0) display.innerText = '0';
+    if (
+      isDivideActive === true || 
+      isMultiplyActive === true || 
+      isSubtractActive === true || 
+      isAddActive === true
+    ) secondNum = display.innerText;
+    else firstNum = display.innerText;
+} else {
+  error();
+}
 });
 
 
 enter.addEventListener('click', function() {
 
-  doMath(firstNum, secondNum);
-  this.setAttribute('disabled', '');
-  reset();
+  if (isTotalEntered === true || isErrorActive === true) return;
+
+  if (this.innerText === '=' && isErrorActive === false) {
+    doMath(firstNum, secondNum);
+    isTotalEntered = true;
+  } else {
+    error();
+  }
 });
 
 // functions
@@ -136,10 +199,9 @@ function doMath(firstNum, secondNum) {
   display.innerText = total;
 };
 
-function reset() {
-  decimal.removeAttribute('disabled');
-  isDivideActive = false;
-  isMultiplyActive = false;
-  isSubtractActive = false;
-  isAddActive = false;
-};
+
+function error() {
+  isErrorActive = true;
+  display.innerText = "ERROR";
+  errorDisplay.innerText = 'Now why did you do that? Please refresh the page to continue.'
+}

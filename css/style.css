@@ -58,7 +58,8 @@ button:active {
   background-color: white;
 }
 
-#title {
+#title,
+#error-display {
   text-align: center;
 }
 
