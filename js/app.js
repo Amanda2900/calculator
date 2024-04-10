@@ -31,6 +31,34 @@ const buttonOperators = new Set(['+', '-', '/', 'x']);
 
 // Event listeners
 
+document.addEventListener('keydown', function(keyPressed) {
+  if (isErrorActive === true) return;
+
+  console.log(keyPressed.key)
+
+  if (buttonNumbers.has(parseInt(keyPressed.key)) && isTotalEntered === false) numButtonPress(keyPressed.key);
+
+  if (buttonOperators.has(keyPressed.key) && isTotalEntered === false) opButtonPress(keyPressed.key);
+
+  if (keyPressed.key === 'Enter' && isTotalEntered === false) {
+    doMath(firstNum, secondNum);
+    isTotalEntered = true;
+  } 
+
+  if (keyPressed.key === '.' && isDecimalActive === false && isTotalEntered === false) {
+    decButtonPress(keyPressed.key);
+  }
+
+  if (keyPressed.key === 'Backspace' && isTotalEntered === false) {
+    backspaceButtonPress();4
+  }
+
+  if (keyPressed.key === 'c') {
+    reset();
+  }
+
+});
+
 numButtons.forEach(function(button) {
   button.addEventListener('click', function() {
     if (isTotalEntered === true || isErrorActive === true) return;
@@ -42,27 +70,6 @@ numButtons.forEach(function(button) {
       }
   });
 });
-
-
-  document.addEventListener('keydown', function(keyPressed) {
-    if (isErrorActive === true) return;
-
-    console.log(keyPressed.key)
-
-    if (buttonNumbers.has(parseInt(keyPressed.key)) && isErrorActive === false && isTotalEntered === false) numButtonPress(keyPressed.key);
-
-    if (buttonOperators.has(keyPressed.key) && isErrorActive === false && isTotalEntered === false) opButtonPress(keyPressed.key);
-
-    if (keyPressed.key === 'Enter' && isErrorActive === false &&isTotalEntered === false) {
-      doMath(firstNum, secondNum);
-      isTotalEntered = true;
-    } 
-
-    if (keyPressed.key === 'c' && isErrorActive === false) {
-      reset();
-    }
-  });
-
 
 opButtons.forEach(function(button) {
   button.addEventListener('click', function() {
@@ -77,7 +84,6 @@ opButtons.forEach(function(button) {
   });
 });
 
-
 clear.addEventListener('click', function() {
 
   if (isErrorActive === true) return;
@@ -89,7 +95,6 @@ clear.addEventListener('click', function() {
   }
 });
 
-
 decimal.addEventListener('click', function() {
   if (
     isTotalEntered === true || 
@@ -98,45 +103,22 @@ decimal.addEventListener('click', function() {
   ) return;
 
   if (this.innerText === '.' && isErrorActive === false) {
-
-    display.innerText = display.innerText + this.innerText;
-    if (
-      isDivideActive === true || 
-      isMultiplyActive === true || 
-      isSubtractActive === true || 
-      isAddActive === true
-    ) {
-      secondNum = display.innerText;
-    } else firstNum = display.innerText;
-
-    isDecimalActive = true;
-
+    decButtonPress(this.innerText)
   } else {
     error();
   }
 });
-
 
 backspace.addEventListener('click', function() {
 
   if (isTotalEntered === true || isErrorActive === true) return;
 
   if (this.innerText === '←' && isErrorActive === false) {
-    display.innerText = display.innerText.substring(0, display.innerText.length - 1);
-
-    if (display.innerText.length === 0) display.innerText = '0';
-    if (
-      isDivideActive === true || 
-      isMultiplyActive === true || 
-      isSubtractActive === true || 
-      isAddActive === true
-    ) secondNum = display.innerText;
-    else firstNum = display.innerText;
+    backspaceButtonPress();
   } else {
     error();
   }
 });
-
 
 enter.addEventListener('click', function() {
 
@@ -150,7 +132,8 @@ enter.addEventListener('click', function() {
   }
 });
 
-// functions
+
+// Functions
 function numButtonPress(button) {
   if (
     isDivideActive === true || 
@@ -183,6 +166,33 @@ function opButtonPress(button) {
   isDecimalActive = false;
 };
 
+function decButtonPress(button) {
+  display.innerText = display.innerText + button;
+  if (
+    isDivideActive === true || 
+    isMultiplyActive === true || 
+    isSubtractActive === true || 
+    isAddActive === true
+  ) {
+    secondNum = display.innerText;
+  } else firstNum = display.innerText;
+
+  isDecimalActive = true;
+}
+
+function backspaceButtonPress() {
+  display.innerText = display.innerText.substring(0, display.innerText.length - 1);
+
+  if (display.innerText.length === 0) display.innerText = '0';
+  if (
+    isDivideActive === true || 
+    isMultiplyActive === true || 
+    isSubtractActive === true || 
+    isAddActive === true
+  ) secondNum = display.innerText;
+  else firstNum = display.innerText;
+}
+
 function reset() {
   isDivideActive = false;
   isMultiplyActive = false;
@@ -212,7 +222,6 @@ function doMath(firstNum, secondNum) {
 
   display.innerText = total;
 };
-
 
 function error() {
   isErrorActive = true;
