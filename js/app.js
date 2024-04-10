@@ -1,9 +1,9 @@
 /* 
   - Button for light/dark mode
-  -Keyboard function for backspace and decimal
+  - Keyboard presses register visually on buttons
 */ 
 
-//Elements
+// Elements
 const numButtons = document.querySelectorAll('button.num');
 const opButtons = document.querySelectorAll('button.operation');
 const clear = document.getElementById('clear');
@@ -12,6 +12,7 @@ const decimal = document.getElementById('decimal');
 const enter = document.getElementById('enter');
 const display = document.getElementById('num-display');
 const errorDisplay = document.getElementById('error-display');
+
 
 // Variables
 let firstNum = 0;
@@ -27,20 +28,18 @@ let isErrorActive = false;
 let isTotalEntered = false;
 
 const buttonNumbers = new Set ([0,1,2,3,4,5,6,7,8,9]);
-const buttonOperators = new Set(['+', '-', '/', 'x']);
+const buttonOperators = new Set(['+','-','/','x','*']);
+
 
 // Event listeners
-
 document.addEventListener('keydown', function(keyPressed) {
   if (isErrorActive === true) return;
-
-  console.log(keyPressed.key)
 
   if (buttonNumbers.has(parseInt(keyPressed.key)) && isTotalEntered === false) numButtonPress(keyPressed.key);
 
   if (buttonOperators.has(keyPressed.key) && isTotalEntered === false) opButtonPress(keyPressed.key);
 
-  if (keyPressed.key === 'Enter' && isTotalEntered === false) {
+  if (keyPressed.key === 'Enter' || keyPressed.key === '=' && isTotalEntered === false) {
     doMath(firstNum, secondNum);
     isTotalEntered = true;
   } 
@@ -53,10 +52,9 @@ document.addEventListener('keydown', function(keyPressed) {
     backspaceButtonPress();4
   }
 
-  if (keyPressed.key === 'c') {
+  if (keyPressed.key === 'c' || keyPressed.key === 'C') {
     reset();
   }
-
 });
 
 numButtons.forEach(function(button) {
@@ -110,7 +108,6 @@ decimal.addEventListener('click', function() {
 });
 
 backspace.addEventListener('click', function() {
-
   if (isTotalEntered === true || isErrorActive === true) return;
 
   if (this.innerText === '←' && isErrorActive === false) {
@@ -121,7 +118,6 @@ backspace.addEventListener('click', function() {
 });
 
 enter.addEventListener('click', function() {
-
   if (isTotalEntered === true || isErrorActive === true) return;
 
   if (this.innerText === '=' && isErrorActive === false) {
@@ -157,7 +153,7 @@ function numButtonPress(button) {
 function opButtonPress(button) {
   if (button === '/') isDivideActive = true;
 
-  if (button === 'x') isMultiplyActive = true;
+  if (button === 'x' || button === '*') isMultiplyActive = true;
 
   if (button === '-') isSubtractActive = true;
 
@@ -211,14 +207,14 @@ function manageDisplay(button) {
   display.innerText = display.innerText + button;
 };
 
-function doMath(firstNum, secondNum) {
-  let first = parseFloat(firstNum);
-  let second = parseFloat(secondNum);
+function doMath(first, second) {
+  firstNum = parseFloat(first);
+  secondNum = parseFloat(second);
 
-  if (isDivideActive === true) total = first / second;
-  if (isMultiplyActive === true) total = first * second;
-  if (isSubtractActive === true) total = first - second;
-  if (isAddActive === true) total = first + second;
+  if (isDivideActive === true) total = firstNum / secondNum;
+  if (isMultiplyActive === true) total = firstNum * secondNum;
+  if (isSubtractActive === true) total = firstNum - secondNum;
+  if (isAddActive === true) total = firstNum + secondNum;
 
   display.innerText = total;
 };
