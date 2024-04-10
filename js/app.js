@@ -1,9 +1,9 @@
 /* 
   - Button for light/dark mode
+  -Keyboard function for backspace and decimal
 */ 
 
 //Elements
-const allButtons = document.querySelectorAll('button');
 const numButtons = document.querySelectorAll('button.num');
 const opButtons = document.querySelectorAll('button.operation');
 const clear = document.getElementById('clear');
@@ -29,34 +29,39 @@ let isTotalEntered = false;
 const buttonNumbers = new Set ([0,1,2,3,4,5,6,7,8,9]);
 const buttonOperators = new Set(['+', '-', '/', 'x']);
 
-// Event listeners for buttons
-numButtons.forEach(function(button) {
-    button.addEventListener('click', function() {
-      if (isTotalEntered === true || isErrorActive === true) return;
+// Event listeners
 
-      if (buttonNumbers.has(parseInt(button.innerText)) && isErrorActive === false) {
-        if (
-          isDivideActive === true || 
-          isMultiplyActive === true || 
-          isSubtractActive === true || 
-          isAddActive === true
-        ) {
-          display.innerText = secondNum;
-          if (display.innerText.length < 20) {
-            manageDisplay(button);
-            secondNum = display.innerText;
-          } else return;
-        } else {
-          if (display.innerText.length < 20) {
-            manageDisplay(button);
-            firstNum = display.innerText;
-          } else return;
-        }
-      } else {
-          error();
-        }
-    });
+numButtons.forEach(function(button) {
+  button.addEventListener('click', function() {
+    if (isTotalEntered === true || isErrorActive === true) return;
+
+    if (buttonNumbers.has(parseInt(button.innerText)) && isErrorActive === false) {
+      numButtonPress(button.innerText);
+    } else {
+        error();
+      }
+  });
 });
+
+
+  document.addEventListener('keydown', function(keyPressed) {
+    if (isErrorActive === true) return;
+
+    console.log(keyPressed.key)
+
+    if (buttonNumbers.has(parseInt(keyPressed.key)) && isErrorActive === false && isTotalEntered === false) numButtonPress(keyPressed.key);
+
+    if (buttonOperators.has(keyPressed.key) && isErrorActive === false && isTotalEntered === false) opButtonPress(keyPressed.key);
+
+    if (keyPressed.key === 'Enter' && isErrorActive === false &&isTotalEntered === false) {
+      doMath(firstNum, secondNum);
+      isTotalEntered = true;
+    } 
+
+    if (keyPressed.key === 'c' && isErrorActive === false) {
+      reset();
+    }
+  });
 
 
 opButtons.forEach(function(button) {
@@ -65,24 +70,7 @@ opButtons.forEach(function(button) {
     if (isTotalEntered === true || isErrorActive === true) return;
 
     if (buttonOperators.has(button.innerText) && isErrorActive === false) {
-
-      if (button.innerText === '/') {
-        isDivideActive = true;
-      }
-  
-      if (button.innerText === 'x') {
-        isMultiplyActive = true;
-      }
-  
-      if (button.innerText === '-') {
-        isSubtractActive = true;
-      }
-  
-      if (button.innerText === '+') {
-        isAddActive = true;
-      }
-      isDecimalActive = false;
-      
+      opButtonPress(button.innerText);  
     } else {
       error();
     }
@@ -95,17 +83,7 @@ clear.addEventListener('click', function() {
   if (isErrorActive === true) return;
 
   if (this.innerText === 'C' && isErrorActive === false) {
-  
-    isDivideActive = false;
-    isMultiplyActive = false;
-    isSubtractActive = false;
-    isAddActive = false;
-    isTotalEntered = false;
-    firstNum = 0;
-    secondNum = 0;
-    total = 0;
-    display.innerText = 0;
-
+    reset()
   } else {
     error();
   }
@@ -154,9 +132,9 @@ backspace.addEventListener('click', function() {
       isAddActive === true
     ) secondNum = display.innerText;
     else firstNum = display.innerText;
-} else {
-  error();
-}
+  } else {
+    error();
+  }
 });
 
 
@@ -173,10 +151,54 @@ enter.addEventListener('click', function() {
 });
 
 // functions
+function numButtonPress(button) {
+  if (
+    isDivideActive === true || 
+    isMultiplyActive === true || 
+    isSubtractActive === true || 
+    isAddActive === true
+  ) {
+    display.innerText = secondNum;
+    if (display.innerText.length < 20) {
+      manageDisplay(button);
+      secondNum = display.innerText;
+    } else return;
+  } else {
+    if (display.innerText.length < 20) {
+      manageDisplay(button);
+      firstNum = display.innerText;
+    } else return;
+  }
+};
+
+function opButtonPress(button) {
+  if (button === '/') isDivideActive = true;
+
+  if (button === 'x') isMultiplyActive = true;
+
+  if (button === '-') isSubtractActive = true;
+
+  if (button === '+') isAddActive = true;
+
+  isDecimalActive = false;
+};
+
+function reset() {
+  isDivideActive = false;
+  isMultiplyActive = false;
+  isSubtractActive = false;
+  isAddActive = false;
+  isTotalEntered = false;
+  firstNum = 0;
+  secondNum = 0;
+  total = 0;
+  display.innerText = 0;
+}
+
 function manageDisplay(button) {
   if (display.innerText === '0') display.innerText = '';
 
-  display.innerText = display.innerText + button.innerText;
+  display.innerText = display.innerText + button;
 };
 
 function doMath(firstNum, secondNum) {
