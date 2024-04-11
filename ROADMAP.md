@@ -2,13 +2,13 @@
 An MVP Minus is basic calculator functionality
 
 ## UX
-- [ ] Display line needs to show what is input
+- [x] Display line needs to show what is input
 
 ## FUNCTIONALITY
 
-- [ ] Buttons do what it says
-  - [ ] When I click a number key it will either begin a new number string or append a new number to the number stack
-- [ ] Create stack concept for operations
+- [x] Buttons do what it says
+  - [x] When I click a number key it will either begin a new number string or append a new number to the number stack
+- [x] Create stack concept for operations
   - [ ] Operations add to the stack
   - [ ] Equal collapses the stack
 - [ ] Clear button should clear stack

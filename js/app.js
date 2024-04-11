@@ -1,6 +1,7 @@
 /* 
   - Button for light/dark mode
   - Keyboard presses register visually on buttons
+  - update with switchstatements
 */ 
 
 // Elements
@@ -13,19 +14,17 @@ const enter = document.getElementById('enter');
 const display = document.getElementById('num-display');
 const errorDisplay = document.getElementById('error-display');
 
-
 // Variables
 let firstNum = 0;
 let secondNum = 0;
+let isDecimalActive = false;
+let isErrorActive = false;
+let isTotalEntered = false;
 let total = 0;
-
 let isDivideActive = false;
 let isMultiplyActive = false;
 let isSubtractActive = false;
 let isAddActive = false;
-let isDecimalActive = false;
-let isErrorActive = false;
-let isTotalEntered = false;
 
 const buttonNumbers = new Set ([0,1,2,3,4,5,6,7,8,9]);
 const buttonOperators = new Set(['+','-','/','x','*']);
@@ -128,51 +127,68 @@ enter.addEventListener('click', function() {
   }
 });
 
-
 // Functions
 function numButtonPress(button) {
-  if (
-    isDivideActive === true || 
-    isMultiplyActive === true || 
-    isSubtractActive === true || 
-    isAddActive === true
-  ) {
-    display.innerText = secondNum;
-    if (display.innerText.length < 20) {
-      manageDisplay(button);
-      secondNum = display.innerText;
-    } else return;
-  } else {
-    if (display.innerText.length < 20) {
-      manageDisplay(button);
-      firstNum = display.innerText;
-    } else return;
+  switch(true) {
+    case isDivideActive:
+    case isMultiplyActive:
+    case isSubtractActive:
+    case isAddActive:
+      display.innerText = secondNum;
+        switch(true) {
+          case display.innerText.length < 20:
+            manageDisplay(button);
+            secondNum = display.innerText;
+            break;
+          default:
+            break;
+        }
+      break;
+    default:
+      switch(true) {
+        case display.innerText.length < 20:
+          manageDisplay(button);
+          firstNum = display.innerText;
+          break;
+        default:
+          break;
+      }
+      break;
   }
 };
 
 function opButtonPress(button) {
-  if (button === '/') isDivideActive = true;
-
-  if (button === 'x' || button === '*') isMultiplyActive = true;
-
-  if (button === '-') isSubtractActive = true;
-
-  if (button === '+') isAddActive = true;
-
+  switch (button) {
+    case '/':
+      isDivideActive = true;
+      break;
+    case 'x':
+    case '*':
+      isMultiplyActive = true;
+      break;
+    case '-':
+      isSubtractActive = true;
+      break;
+    case '+':
+      isAddActive = true;
+      break;
+  }
   isDecimalActive = false;
 };
 
 function decButtonPress(button) {
   display.innerText = display.innerText + button;
-  if (
-    isDivideActive === true || 
-    isMultiplyActive === true || 
-    isSubtractActive === true || 
-    isAddActive === true
-  ) {
-    secondNum = display.innerText;
-  } else firstNum = display.innerText;
-
+  switch(true) {
+    case isDivideActive:
+    case isMultiplyActive:
+    case isSubtractActive:
+    case isAddActive:
+      secondNum = display.innerText;
+      break;
+    default:
+      firstNum = display.innerText;
+      break;
+  }
   isDecimalActive = true;
 }
 
@@ -180,13 +196,18 @@ function backspaceButtonPress() {
   display.innerText = display.innerText.substring(0, display.innerText.length - 1);
 
   if (display.innerText.length === 0) display.innerText = '0';
-  if (
-    isDivideActive === true || 
-    isMultiplyActive === true || 
-    isSubtractActive === true || 
-    isAddActive === true
-  ) secondNum = display.innerText;
-  else firstNum = display.innerText;
+
+  switch(true) {
+    case isDivideActive:
+    case isMultiplyActive:
+    case isSubtractActive:
+    case isAddActive:
+      secondNum = display.innerText;
+      break;
+    default:
+      firstNum = display.innerText;
+      break;
+  }
 }
 
 function reset() {
@@ -211,11 +232,20 @@ function doMath(first, second) {
   firstNum = parseFloat(first);
   secondNum = parseFloat(second);
 
-  if (isDivideActive === true) total = firstNum / secondNum;
-  if (isMultiplyActive === true) total = firstNum * secondNum;
-  if (isSubtractActive === true) total = firstNum - secondNum;
-  if (isAddActive === true) total = firstNum + secondNum;
-
+  switch(true) {
+    case isDivideActive:
+      total = firstNum / secondNum;
+      break;
+    case isMultiplyActive:
+      total = firstNum * secondNum;
+      break;
+    case isSubtractActive:
+      total = firstNum - secondNum;
+      break;
+    case isAddActive:
+      total = firstNum + secondNum;
+      break;
+  }
   display.innerText = total;
 };
 
