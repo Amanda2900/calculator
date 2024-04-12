@@ -1,7 +1,6 @@
 /* 
   - Button for light/dark mode
   - Keyboard presses register visually on buttons
-  - update with switchstatements
 */ 
 
 // Elements
@@ -32,98 +31,152 @@ const buttonOperators = new Set(['+','-','/','x','*']);
 
 // Event listeners
 document.addEventListener('keydown', function(keyPressed) {
-  if (isErrorActive === true) return;
-
-  if (buttonNumbers.has(parseInt(keyPressed.key)) && isTotalEntered === false) numButtonPress(keyPressed.key);
-
-  if (buttonOperators.has(keyPressed.key) && isTotalEntered === false) opButtonPress(keyPressed.key);
-
-  if (keyPressed.key === 'Enter' || keyPressed.key === '=' && isTotalEntered === false) {
-    doMath(firstNum, secondNum);
-    isTotalEntered = true;
-  } 
-
-  if (keyPressed.key === '.' && isDecimalActive === false && isTotalEntered === false) {
-    decButtonPress(keyPressed.key);
-  }
-
-  if (keyPressed.key === 'Backspace' && isTotalEntered === false) {
-    backspaceButtonPress();4
-  }
-
-  if (keyPressed.key === 'c' || keyPressed.key === 'C') {
-    reset();
+  switch (true) {
+    case isErrorActive:
+      break;
+    case !isTotalEntered:
+      switch (true) {
+        case buttonNumbers.has(parseInt(keyPressed.key)):
+          numButtonPress(keyPressed.key);
+          break;
+        case buttonOperators.has(keyPressed.key):
+          opButtonPress(keyPressed.key);
+          break;
+        case keyPressed.key === 'Enter':
+        case keyPressed.key === '=':
+          doMath(firstNum, secondNum);
+          isTotalEntered = true;
+          break;
+        case keyPressed.key === 'Backspace':
+          backspaceButtonPress();
+          break;
+        case !isDecimalActive:
+          switch (keyPressed.key) {
+            case '.':
+            decButtonPress(keyPressed.key);
+            break;
+          }
+      }
+      default:
+        switch (keyPressed.key) {
+          case 'C':
+          case 'c':
+            reset();
+            break;
+        }
   }
 });
 
 numButtons.forEach(function(button) {
   button.addEventListener('click', function() {
-    if (isTotalEntered === true || isErrorActive === true) return;
-
-    if (buttonNumbers.has(parseInt(button.innerText)) && isErrorActive === false) {
-      numButtonPress(button.innerText);
-    } else {
-        error();
-      }
+    switch (true) {
+      case isTotalEntered:
+      case isErrorActive:
+        break;
+      default:
+        switch (true) {
+          case buttonNumbers.has(parseInt(button.innerText)):
+            numButtonPress(button.innerText);
+            break;
+          default:
+            error();
+            break;
+        }
+        break;
+    }
   });
 });
 
 opButtons.forEach(function(button) {
   button.addEventListener('click', function() {
-
-    if (isTotalEntered === true || isErrorActive === true) return;
-
-    if (buttonOperators.has(button.innerText) && isErrorActive === false) {
-      opButtonPress(button.innerText);  
-    } else {
-      error();
+    switch (true) {
+      case isTotalEntered:
+      case isErrorActive:
+        break;
+      default:
+        switch (true) {
+          case buttonOperators.has(button.innerText):
+            opButtonPress(button.innerText);
+            break;
+          default:
+            error();
+            break;
+        }
+        break;
     }
   });
 });
 
 clear.addEventListener('click', function() {
-
-  if (isErrorActive === true) return;
-
-  if (this.innerText === 'C' && isErrorActive === false) {
-    reset()
-  } else {
-    error();
+  switch (true) {
+    case isErrorActive:
+      break;
+    default:
+      switch (this.innerText) {
+        case 'C':
+          reset();
+          break;
+        default:
+          error();
+          break;
+      }
+      break;
   }
 });
 
 decimal.addEventListener('click', function() {
-  if (
-    isTotalEntered === true || 
-    isErrorActive === true || 
-    isDecimalActive === true
-  ) return;
-
-  if (this.innerText === '.' && isErrorActive === false) {
-    decButtonPress(this.innerText)
-  } else {
-    error();
+  switch (true) {
+    case isTotalEntered:
+    case isErrorActive:
+    case isDecimalActive:
+      break;
+    default:
+      switch (this.innerText) {
+        case '.':
+          decButtonPress(this.innerText);
+          break;
+        default:
+          error();
+          break;
+      }
+      break;
   }
 });
 
 backspace.addEventListener('click', function() {
-  if (isTotalEntered === true || isErrorActive === true) return;
-
-  if (this.innerText === '←' && isErrorActive === false) {
-    backspaceButtonPress();
-  } else {
-    error();
+  switch (true) {
+    case isTotalEntered:
+    case isErrorActive:
+      break;
+    default:
+      switch (this.innerText) {
+        case '←':
+          backspaceButtonPress();
+          break;
+        default:
+          error();
+          break;
+      }
+      break;
   }
 });
 
 enter.addEventListener('click', function() {
-  if (isTotalEntered === true || isErrorActive === true) return;
-
-  if (this.innerText === '=' && isErrorActive === false) {
-    doMath(firstNum, secondNum);
-    isTotalEntered = true;
-  } else {
-    error();
+  switch (true) {
+    case isTotalEntered:
+    case isErrorActive:
+      break;
+    default:
+      switch (this.innerText) {
+        case '=':
+          doMath(firstNum, secondNum);
+          isTotalEntered = true;
+          break;
+        default:
+          error();
+          break;
+      }
+      break;
   }
 });
 
