@@ -41,6 +41,7 @@ More prettiness for ME (I love neon) and put this on the iNtErNeT
 - [ ] Click effect - sound and/or visual
 - [ ] Handle diff screen sizes
 - [ ] Add link to my resume
+- [ ] Keyboard presses register visually on buttons
 
 
 ## FUNCTIONALITY
