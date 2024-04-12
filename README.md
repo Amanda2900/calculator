@@ -2,7 +2,7 @@
 
 ## Description
 
-Welcome to my little calculator! In an effort to keep coding, I decided to build this calculator using vanilla JavaScript. I hope you enjoy performing mathemetical equations on it as much as I enjoyed building this calculator.
+Welcome to my little calculator! In an effort to keep coding, I decided to build this calculator using vanilla JavaScript. 
 
 ## Screenshot
 
