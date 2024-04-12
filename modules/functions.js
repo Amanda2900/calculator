@@ -15,13 +15,13 @@ let isAddActive = false;
 
 // Functions
 function numButtonPress(button) {
-  switch(true) {
+  switch (true) {
     case isDivideActive:
     case isMultiplyActive:
     case isSubtractActive:
     case isAddActive:
       display.innerText = secondNum;
-        switch(true) {
+        switch (true) {
           case display.innerText.length < 20:
             manageDisplay(button);
             secondNum = display.innerText;
@@ -31,7 +31,7 @@ function numButtonPress(button) {
         }
       break;
     default:
-      switch(true) {
+      switch (true) {
         case display.innerText.length < 20:
           manageDisplay(button);
           firstNum = display.innerText;
@@ -64,7 +64,7 @@ function opButtonPress(button) {
 
 function decButtonPress() {
   display.innerText = display.innerText + '.';
-  switch(true) {
+  switch (true) {
     case isDivideActive:
     case isMultiplyActive:
     case isSubtractActive:
@@ -83,7 +83,7 @@ function backspaceButtonPress() {
 
   if (display.innerText.length === 0) display.innerText = '0';
 
-  switch(true) {
+  switch (true) {
     case isDivideActive:
     case isMultiplyActive:
     case isSubtractActive:
@@ -117,7 +117,7 @@ function doMath(first, second) {
   firstNum = parseFloat(first);
   secondNum = parseFloat(second);
 
-  switch(true) {
+  switch (true) {
     case isDivideActive:
       total = firstNum / secondNum;
       break;
