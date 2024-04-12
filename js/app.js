@@ -53,7 +53,7 @@ document.addEventListener('keydown', function(keyPressed) {
         case !isDecimalActive:
           switch (keyPressed.key) {
             case '.':
-            decButtonPress(keyPressed.key);
+            decButtonPress();
             break;
           }
       }
@@ -75,8 +75,8 @@ numButtons.forEach(function(button) {
         break;
       default:
         switch (true) {
-          case buttonNumbers.has(parseInt(button.innerText)):
-            numButtonPress(button.innerText);
+          case buttonNumbers.has(parseInt(button.id)):
+            numButtonPress(button.id);
             break;
           default:
             error();
@@ -95,8 +95,8 @@ opButtons.forEach(function(button) {
         break;
       default:
         switch (true) {
-          case buttonOperators.has(button.innerText):
-            opButtonPress(button.innerText);
+          case buttonOperators.has(button.id):
+            opButtonPress(button.id);
             break;
           default:
             error();
@@ -112,8 +112,8 @@ clear.addEventListener('click', function() {
     case isErrorActive:
       break;
     default:
-      switch (this.innerText) {
-        case 'C':
+      switch (this.id) {
+        case 'clear':
           reset();
           break;
         default:
@@ -131,9 +131,9 @@ decimal.addEventListener('click', function() {
     case isDecimalActive:
       break;
     default:
-      switch (this.innerText) {
-        case '.':
-          decButtonPress(this.innerText);
+      switch (this.id) {
+        case 'decimal':
+          decButtonPress();
           break;
         default:
           error();
@@ -149,8 +149,8 @@ backspace.addEventListener('click', function() {
     case isErrorActive:
       break;
     default:
-      switch (this.innerText) {
-        case '←':
+      switch (this.id) {
+        case 'backspace':
           backspaceButtonPress();
           break;
         default:
@@ -167,8 +167,8 @@ enter.addEventListener('click', function() {
     case isErrorActive:
       break;
     default:
-      switch (this.innerText) {
-        case '=':
+      switch (this.id) {
+        case 'enter':
           doMath(firstNum, secondNum);
           isTotalEntered = true;
           break;
@@ -229,8 +229,8 @@ function opButtonPress(button) {
   isDecimalActive = false;
 };
 
-function decButtonPress(button) {
-  display.innerText = display.innerText + button;
+function decButtonPress() {
+  display.innerText = display.innerText + '.';
   switch(true) {
     case isDivideActive:
     case isMultiplyActive:

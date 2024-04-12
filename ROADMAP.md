@@ -9,9 +9,9 @@ An MVP Minus is basic calculator functionality
 - [x] Buttons do what it says
   - [x] When I click a number key it will either begin a new number string or append a new number to the number stack
 - [x] Create stack concept for operations
-  - [ ] Operations add to the stack
-  - [ ] Equal collapses the stack
-- [ ] Clear button should clear stack
+  - [x] Operations add to the stack
+  - [x] Equal collapses the stack
+- [x] Clear button should clear stack
   
 
 # MVP
@@ -19,13 +19,13 @@ MVP more prettiness for the user
 
 ## UX
 
-- [ ] Buttons have styling on click
-- [ ] Indicator on button for current operation selected
+- [x] Buttons have styling on click
+- [x] Indicator on button for current operation selected
 
 ## FUNCTIONALITY
 
-- [ ] Backspace does not remove operation, only numbers in current input
-- [ ] Capture keyboard and button clicks
+- [x] Backspace does not remove operation, only numbers in current input
+- [x] Capture keyboard and button clicks
 
 
 # MVP Plus
