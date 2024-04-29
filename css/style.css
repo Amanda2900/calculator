@@ -49,6 +49,19 @@ button:active {
   color: var(--page-bg-color-light);
 }
 
+.footer {
+  text-align: right;
+  margin: 10px;
+}
+
+.footer-text {
+  text-decoration: none;
+}
+
+.footer-text:hover {
+  text-decoration: underline;
+}
+
 #num-display {
   text-align: end;
   padding: 5px;
