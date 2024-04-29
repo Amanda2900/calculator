@@ -4,6 +4,8 @@
 
 Welcome to my little calculator! In an effort to keep coding, I decided to build this calculator using vanilla JavaScript.
 
+Enjoy using my calculator here: [Calculator](https://calc-fun.netlify.app/)
+
 ## Screenshot
 
 ![calculator screenshot](./images/calc_screenshot.png)
