@@ -2,7 +2,7 @@
 
 ## Description
 
-Welcome to my little calculator! In an effort to keep coding, I decided to build this calculator using vanilla JavaScript. 
+Welcome to my little calculator! In an effort to keep coding, I decided to build this calculator using vanilla JavaScript.
 
 ## Screenshot
 
@@ -21,4 +21,4 @@ Welcome to my little calculator! In an effort to keep coding, I decided to build
   
 ## Credits
 
-- Favicon: <a href="https://www.flaticon.com/free-icons/calculator" title="calculator icons">Calculator icons created by Pixel perfect - Flaticon</a>
+- Favicon: [Calculator icons created by Pixel perfect - Flaticon](https://www.flaticon.com/free-icons/calculator)
